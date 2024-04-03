@@ -1,5 +1,5 @@
 import { reactive } from "vue"; //IMPORT REACTIVE FROM VUEJS
-import { axios } from "axios"; //Import Axios to Get CALLS
+import axios from "axios"; //Import Axios to Get CALLS
 
 export const productCallState = reactive({
   products_url: "https://api.themoviedb.org/3/search/movie",
