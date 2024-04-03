@@ -1,6 +1,5 @@
 <script>
 import { productCallState } from "../store/apiCallState" //API import
-import { hasFlag } from 'country-flag-icons' //Flags Import
 export default {
     name: "AppHeader",
     data() {
@@ -10,12 +9,19 @@ export default {
         }
     },
     methods: {
-        getUserInput() {
-            console.log(this.userInput)
-            this.userInput = ''
+        getMoviesTvShow() {
+            this.getMovies();
+            this.getTvSeries();
         },
         getMovies() {
-            this.productCallState.getProducts(`${this.productCallState.products_url}movie?api_key=${this.productCallState.api_key}&query=${this.userInput}`)
+            if (this.userInput != '') {
+                this.productCallState.getMovies(`${this.productCallState.products_url}movie?api_key=${this.productCallState.api_key}&query=${this.userInput}`)
+            }
+        },
+        getTvSeries() {
+            if (this.userInput != ''){
+                this.productCallState.getTvShows(`${this.productCallState.products_url}tv?api_key=${this.productCallState.api_key}&query=${this.userInput}`)
+        }
         },
         nullChecker(el) {
             if (el != null) {
@@ -25,41 +31,60 @@ export default {
             }
             
         },
-        flagCheck(lang) {
-            if (hasFlag(lang)) {
-                return 
-            } else {
-                return "-"
-            }
-
-        }
     },
     mounted() {
-        this.getMovies()
     }
     
 }
 </script>
 <template>
     <div>
-        <input type="text" placeholder="Inserisci titolo" v-model="userInput" @keyup.enter="getMovies">
-        <button @click="getMovies"> Conferma </button>
-        <div v-if="productCallState.products.length>0">
-            <div class="my-2 p-2 flex-col gap-2 border-2" v-for="product in productCallState.products">
-                <div v-if="product.title==product.original_title">Title:{{ nullChecker(product.title) }}</div>
-                <div class="flex flex-col" v-else>
-                    <span v-if="product.title!=null">Title: {{ nullChecker(product.title) }} </span>
-                    <span>Original Title: {{ nullChecker(product.original_title) }}</span>
+        <input type="text" placeholder="Inserisci titolo" v-model.trim="userInput" @keyup.enter="getMoviesTvShow">
+        <button @click="getMoviesTvShow"> Conferma </button>
+
+        <!-- MOVIE -->
+        <div v-if="productCallState.Movies.length>0">
+            <div class="my-2 p-2 flex-col gap-2 border-2 border-red" v-for="movie in productCallState.Movies">
+
+                <div v-if="movie.title==movie.original_title">Title:{{ nullChecker(movie.title) }}</div>
+
+                <div v-else class="flex flex-col">
+                    <span>Title: {{ nullChecker(movie.title) }} </span>
+                    <span>Original Title: {{ nullChecker(movie.original_title) }}</span>
                 </div>
-                <div>Description: {{ nullChecker(product.overview) }}</div>
-                <div>Language: "{{ nullChecker(product.original_language) }}"
-                    <img :src="flagCheck('EN')" width="20px" alt="">
+
+                <div>Description: {{ nullChecker(movie.overview) }}</div>
+
+                <div>Language: "{{ nullChecker(movie.original_language) }}"
+                    <span :class="`fi fi-${movie.original_language}`">
+                    </span>
                 </div>
-                <div>Vote: {{ nullChecker(product.vote_average)}}</div>
-                <span class="fi fi-gr"></span>
+
+                <div>Vote: {{ nullChecker(movie.vote_average).toFixed(1)}}</div>
             </div>
         </div>
 
+        <!-- TV SHOW -->
+        <div v-if="productCallState.TvShows.length > 0">
+            <div class="my-2 p-2 flex-col gap-2 border-2 border-blue" v-for="tvShow in productCallState.TvShows">
+
+                <div v-if="tvShow.name == tvShow.original_name">Name:{{ nullChecker(tvShow.name) }}</div>
+
+                <div v-else class="flex flex-col">
+                    <span>Name: {{ nullChecker(tvShow.name) }} </span>
+                    <span>Original Name: {{ nullChecker(tvShow.original_name) }}</span>
+                </div>
+
+                <div>Description: {{ nullChecker(tvShow.overview) }}</div>
+
+                <div>Language: "{{ nullChecker(tvShow.original_language) }}"
+                    <span :class="`fi fi-${tvShow.original_language}`">
+                    </span>
+                </div>
+
+                <div>Vote: {{ nullChecker(tvShow.vote_average).toFixed(1) }}</div>
+            </div>
+        </div>
     </div>
 </template>
 
