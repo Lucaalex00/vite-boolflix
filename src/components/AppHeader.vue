@@ -1,11 +1,12 @@
 <script>
-import {productCallState} from "../store/apiCallState"
+import { productCallState } from "../store/apiCallState" //API import
+import { hasFlag } from 'country-flag-icons' //Flags Import
 export default {
     name: "AppHeader",
     data() {
         return {
             productCallState,
-            userInput:"",
+            userInput: "",
         }
     },
     methods: {
@@ -23,6 +24,14 @@ export default {
                 return "-";
             }
             
+        },
+        flagCheck(lang) {
+            if (hasFlag(lang)) {
+                return 
+            } else {
+                return "-"
+            }
+
         }
     },
     mounted() {
@@ -43,8 +52,11 @@ export default {
                     <span>Original Title: {{ nullChecker(product.original_title) }}</span>
                 </div>
                 <div>Description: {{ nullChecker(product.overview) }}</div>
-                <div>Language: "{{ nullChecker(product.original_language) }}"</div>
+                <div>Language: "{{ nullChecker(product.original_language) }}"
+                    <img :src="flagCheck('EN')" width="20px" alt="">
+                </div>
                 <div>Vote: {{ nullChecker(product.vote_average)}}</div>
+                <span class="fi fi-gr"></span>
             </div>
         </div>
 
@@ -52,28 +64,6 @@ export default {
 </template>
 
 
-<style>
-    .flex{
-        display: flex;
-    }
+<style scoped>
 
-    .flex-col{
-        flex-direction:column;
-    }
-
-    .gap-2{
-        gap:1rem;
-    }
-
-    .border-2{
-        border:2px solid black;
-    }
-
-    .p-2{
-        padding:0.5rem
-    }
-
-    .my-2{
-        margin:4px 0
-    }
 </style>
