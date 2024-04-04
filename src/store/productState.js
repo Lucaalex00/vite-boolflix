@@ -7,9 +7,9 @@ export const productShowState = reactive({
    * Function just to invoke both "GET" method to keep Movies & tvShows
    */
   getMoviesTvShow() {
+    this.userInput;
     this.getMovies();
     this.getTvSeries();
-    this.userInput = null;
   },
   /**
    * Function to keep Movies from "GET" method
