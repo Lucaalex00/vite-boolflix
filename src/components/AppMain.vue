@@ -8,6 +8,11 @@ export default {
             productCallState,
             productShowState,
         }
+    },
+    methods: {
+        getInputError() {
+            return ('0 titles found, retry')
+        }
     }
 }
 </script>
@@ -44,8 +49,7 @@ export default {
 
         <!-- TV SHOW -->
         <div class="product_container" v-if="productCallState.TvShows.length > 0">
-            <div class="my-2 p-1 border-2 border-blue bg-dark text-white"
-                v-for="tvShow in productCallState.TvShows">
+            <div class="my-2 p-1 border-2 border-blue bg-dark text-white" v-for="tvShow in productCallState.TvShows">
                 <div class="product_item">
                     <img :src="`${productCallState.cover_url}w342${tvShow.poster_path}`"
                         v-if="tvShow.poster_path != null" alt="Image">
@@ -70,8 +74,10 @@ export default {
                 </div>
             </div>
         </div>
+        <div v-if="productCallState.Movies.length== 0 && productCallState.TvShows.length== 0" class="container_null">
+            <span v-if="productShowState.userInput == null" class="element_null text-white">{{ getInputError() ,  productShowState.resetUserInput}}</span>
     </div>
-    <div v-if="productCallState.Movies.length== 0 && productCallState.TvShows.length== 0"> Insert a valid Title</div>
+    </div>
 </template>
 
 
@@ -102,11 +108,23 @@ export default {
 .product_item {
     overflow-y: auto;
     overflow-x: hidden; 
+    width: 300px;
     height: 100%;
     >img{
     opacity: 60%;
     }
     
+}
+.container_null{
+    height: calc(100vh - 50px - 4px);
+    display: flex;
+    justify-content: center;
+    opacity: 60%;
+    >.element_null{
+        font-size: 2rem;
+        color: red;
+        text-shadow: 1px 1px white;
+    }
 }
 ::-webkit-scrollbar {
         width: 0;

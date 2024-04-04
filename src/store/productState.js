@@ -9,6 +9,7 @@ export const productShowState = reactive({
   getMoviesTvShow() {
     this.getMovies();
     this.getTvSeries();
+    this.userInput = null;
   },
   /**
    * Function to keep Movies from "GET" method
@@ -55,5 +56,8 @@ export const productShowState = reactive({
     } else {
       return "fa-regular fa-star";
     }
+  },
+  resetUserInput() {
+    this.userInput = "";
   },
 });
