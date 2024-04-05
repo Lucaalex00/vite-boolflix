@@ -3,35 +3,27 @@ import { productCallState } from '../store/apiCallState';
 import { productShowState } from '../store/productState';
 export default {
     name: 'Card',
-    emits:['err'],
     data() {
         return {
             productCallState,
             productShowState,
+            showInfoProduct:false,
         }
     },
-    methods: {
-        getInputError() {
-            if (productCallState.Movies.length == 0 && productCallState.TvShows.length == 0) {
-                this.productShowState.resetUserInput();
-                console.log('ciao');
-                this.$emit('err', '0 titles found,');
-            }
-        }
-    }
 }
 </script>
 <template>
     <!-- MOVIE -->
     <h1 class="movie_title" v-if="productCallState.Movies.length > 0"> Movies </h1>
     <div class="product_container" v-if="productCallState.Movies.length > 0">
-        <div class="my-2 p-1 border-2 border-red bg-dark text-white" v-for="movie in productCallState.Movies">
+        <div class="my-2 p-1 border-2 border-red bg-dark text-white" v-for="(movie, index) in productCallState.Movies">
             <div class="product_item">
-                <div class="card">
-                    <img :src="`${productCallState.cover_url}w342${movie.poster_path}`" v-if="movie.poster_path != null"
-                        alt="Image">
-
-                    <div v-if="movie.title == movie.original_title">Title:{{ productShowState.nullChecker(movie.title)
+                <img :src="`${productCallState.cover_url}w342${movie.poster_path}`" v-if="movie.poster_path != null"
+                    alt="Title Image" @mouseover="showInfoProduct=true" @mouseleave="showInfoProduct=false">
+                <img v-else src="../assets/No_Image_Available.jpg" alt="No Image Avalaible">
+                <div class="info_product" v-if="showInfoProduct==true">
+                    <div v-if="movie.title == movie.original_title">Title:{{
+                        productShowState.nullChecker(movie.title)
                         }}</div>
 
                     <div v-else class="flex flex-col">
@@ -49,9 +41,9 @@ export default {
                     <font-awesome-icon v-for="index in 5"
                         :icon="productShowState.getIntVote((movie.vote_average / 2), index)" />
                     {{ (movie.vote_average / 2).toFixed(1) }}
-                </div>
             </div>
         </div>
+    </div>
     </div>
 
     <!-- TV SHOWs -->
@@ -83,11 +75,12 @@ export default {
         </div>
     </div>
 
-    <div class="container_null">
+    <div class="container_null" v-if="productShowState.errorMessage!=''">
         <span class="element_null text-white">
-            {{getInputError()}} {{   }}
+            {{ productShowState.errorMessage }}
         </span>
     </div>
+    <div class="bg-img" v-else> a</div>
 </template>
 
 
@@ -98,66 +91,67 @@ export default {
     }
     .movie_title{
         color: red;
+        text-shadow: 2px 2px rgba(180, 0, 0, 0.699)
     }
     .tvshow_title{
         color: blue;
+        text-shadow: 2px 2px rgba(0, 0, 180, 0.699)
     }
-    .card{
+    img {
+        opacity: 60%;
+        width: 100%;
+        height: 100%
+    }
+    .info_product{
+        position: absolute;
+        top: 0;
+    }
+
+    .bg-dark {
+        background-color: rgba(0, 0, 0, 0.753);
+    }
+
+    .text-white {
+        color: white;
+    }
+
+    .product_container {
+        overflow-y: auto;
+        display: flex;
+        width: 80%;
+        height: 300px;
+        margin: auto;
+        padding: 1rem;
+
+    }
+
+     .product_item {
         overflow-y: auto;
         overflow-x: hidden;
         width: 300px;
         height: 100%;
-    
+        position: relative;
         >img {
             opacity: 60%;
         }
 
-    }
-        .bg-dark {
-            background-color: rgba(0, 0, 0, 0.753);
-        }
-    
-        .text-white {
+    } 
+
+    .container_null {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        opacity: 90%;
+        position: relative;
+
+        >.element_null {
+            font-size: 5rem;
             color: white;
+            text-shadow: 2px 2px red;
         }
-    
-        .product_container {
-            overflow-y: auto;
-            display: flex;
-            width: 80%;
-            height: 800px;
-            margin: auto;
-            padding: 1rem;
-    
-        }
-    
-        .product_item {
-            overflow-y: auto;
-            overflow-x: hidden;
-            width: 300px;
-            height: 100%;
-    
-            >img {
-                opacity: 60%;
-            }
-    
-        }
-    
-        .container_null {
-            height: calc(100vh - 50px - 4px);
-            display: flex;
-            justify-content: center;
-            opacity: 60%;
-    
-            >.element_null {
-                font-size: 2rem;
-                color: red;
-                text-shadow: 1px 1px white;
-                background-color: white;
-            }
-        }
-    
-        ::-webkit-scrollbar {
-            width: 0;
-        }
+    }
+
+    ::-webkit-scrollbar {
+        width: 0;
+    }
 </style>

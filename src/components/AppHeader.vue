@@ -20,11 +20,12 @@ export default {
 <template>
     <div class="header_container">
         <div class="logo">
-            <img src="../assets/Netflix_Logo_RGB.png" alt="Netflix">
+            <a href="https://www.netflix.com/it/"><img src="../assets/Netflix_Logo_RGB.png" alt="Netflix"></a>
         </div>
         <div class="controls">
             <input type="text" placeholder="Inserisci titolo" v-model.trim="productShowState.userInput"
                 @keyup.enter="productShowState.getMoviesTvShow">
+
             <button @click="productShowState.getMoviesTvShow"> Search </button>
         </div>
     </div>
@@ -37,7 +38,6 @@ export default {
     background-color: black;
     display: flex;
     justify-content: space-between;
-    gap: 1rem;
     padding: 4px 1rem;
     align-items: center;
     >.controls{
@@ -45,19 +45,20 @@ export default {
         gap: 1rem;
         >button{
             width: 80px;
-            background-color: wheat;
+            color: white;
+            background-color: black;
             border: 2px solid white;
         };
         >input{
             width: 200px;
-            background-color: wheat;
+            background-color: black;
             border: 2px solid white;
-            color: black
+            color: white
         };
     }
     
-    >.logo>img{
-        width: 100px;
+    >.logo>a>img{
+        width: 120px;
     }
 }
 

@@ -8,22 +8,16 @@ export default {
         return {
             productCallState,
             productShowState,
-            errorMessage:''
         }
     },
     components: {
         Card
     },
-    methods: {
-        getInputError(err) {
-            return this.errorMessage = err;
-        }
-    }
 }
 </script>
 <template>
     <div class="bg-img">
-        <Card @err="getInputError" />
+        <Card />
     </div>
 </template>
 
@@ -35,6 +29,7 @@ export default {
     background-repeat: no-repeat;
     background-position: center;
     background-color: black;
+    height: calc(100vh - 50px - 4px);
 
 }
 </style>
