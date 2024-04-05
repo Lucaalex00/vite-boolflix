@@ -20,7 +20,8 @@ export default {
             <div class="product_item">
                 <img :src="`${productCallState.cover_url}w342${movie.poster_path}`" v-if="movie.poster_path != null"
                     alt="Title Image" @mouseover="showInfoProduct=true" @mouseleave="showInfoProduct=false">
-                <img v-else src="../assets/No_Image_Available.jpg" alt="No Image Avalaible">
+                <img v-else src="../assets/No_Image_Available.jpg" alt="No Image Avalaible"
+                    @mouseover="showInfoProduct = true" @mouseleave="showInfoProduct = false">
                 <div class="info_product" v-if="showInfoProduct==true">
                     <div v-if="movie.title == movie.original_title">Title:{{
                         productShowState.nullChecker(movie.title)
@@ -41,36 +42,42 @@ export default {
                     <font-awesome-icon v-for="index in 5"
                         :icon="productShowState.getIntVote((movie.vote_average / 2), index)" />
                     {{ (movie.vote_average / 2).toFixed(1) }}
+                </div>
             </div>
         </div>
     </div>
-    </div>
 
     <!-- TV SHOWs -->
-    <h1 class="tvshow_title" v-if="productCallState.TvShows.length > 0">Tv-Show</h1>
+    <h1 class="tvshow_title" v-if="productCallState.TvShows.length > 0">TV-Show</h1>
     <div class="product_container" v-if="productCallState.TvShows.length > 0">
-        <div class="my-2 p-1 border-2 border-blue bg-dark text-white" v-for="tvShow in productCallState.TvShows">
+        <div class="my-2 p-1 border-2 border-blue bg-dark text-white"
+            v-for="(tvShow, index) in productCallState.TvShows">
             <div class="product_item">
                 <img :src="`${productCallState.cover_url}w342${tvShow.poster_path}`" v-if="tvShow.poster_path != null"
-                    alt="Image">
-                <div v-if="tvShow.name == tvShow.original_name">Name:{{ productShowState.nullChecker(tvShow.name) }}
+                    alt="Image" @mouseover="showInfoProduct = true" @mouseleave="showInfoProduct = false">
+                <img v-else src="../assets/No_Image_Available.jpg" alt="No Image Avalaible"
+                    @mouseover="showInfoProduct = true" @mouseleave="showInfoProduct = false">
+                <div class="info_product" v-if="showInfoProduct==true">
+                    <div v-if="tvShow.name == tvShow.original_name">Name:{{
+                    productShowState.nullChecker(tvShow.name) }}
+                    </div>
+
+                    <div v-else class="flex flex-col">
+                        <span>Name: {{ productShowState.nullChecker(tvShow.name) }} </span>
+                        <span>Original Name: {{ productShowState.nullChecker(tvShow.original_name) }}</span>
+                    </div>
+
+                    <div>Description: {{ productShowState.nullChecker(tvShow.overview) }}</div>
+
+                    <div>Language: "{{ productShowState.nullChecker(tvShow.original_language) }}"
+                        <span :class="`fi fi-${tvShow.original_language}`">
+                        </span>
+                    </div>
+
+                    <font-awesome-icon v-for="index in 5"
+                        :icon="productShowState.getIntVote((tvShow.vote_average / 2), index)" />
+                    {{ (tvShow.vote_average / 2).toFixed(1) }}
                 </div>
-
-                <div v-else class="flex flex-col">
-                    <span>Name: {{ productShowState.nullChecker(tvShow.name) }} </span>
-                    <span>Original Name: {{ productShowState.nullChecker(tvShow.original_name) }}</span>
-                </div>
-
-                <div>Description: {{ productShowState.nullChecker(tvShow.overview) }}</div>
-
-                <div>Language: "{{ productShowState.nullChecker(tvShow.original_language) }}"
-                    <span :class="`fi fi-${tvShow.original_language}`">
-                    </span>
-                </div>
-
-                <font-awesome-icon v-for="index in 5"
-                    :icon="productShowState.getIntVote((tvShow.vote_average / 2), index)" />
-                {{ (tvShow.vote_average / 2).toFixed(1) }}
             </div>
         </div>
     </div>
@@ -80,7 +87,7 @@ export default {
             {{ productShowState.errorMessage }}
         </span>
     </div>
-    <div class="bg-img" v-else> a</div>
+    <div class="bg-img" v-else> </div>
 </template>
 
 
