@@ -7,22 +7,45 @@ export default {
         return {
             productCallState,
             productShowState,
-            showInfoProduct:false,
+            showInfoProduct: false,
         }
     },
+    methods: {
+        addShowInfoProperty() {
+            productCallState.Movies.forEach(movie => {
+                movie.showInfo = false;    
+            })
+            
+    },
+        /**
+         * Show "EL" info
+         * @param {Object} el 
+         */
+        showInfo(el) {
+            el.showInfo = true;
+            console.log('show')
+        },
+        /**
+         * Hide "EL" info
+         * @param {Object} el 
+         */
+        hideInfo(el) {
+            el.showInfo = false;
+            console.log('hide')
+        }
+    }
 }
 </script>
 <template>
     <!-- MOVIE -->
     <h1 class="movie_title" v-if="productCallState.Movies.length > 0"> Movies </h1>
     <div class="product_container" v-if="productCallState.Movies.length > 0">
-        <div class="my-2 p-1 border-2 border-red bg-dark text-white" v-for="(movie, index) in productCallState.Movies">
-            <div class="product_item">
+        <div class="my-2 p-1 border-2 border-red bg-dark text-white" v-for="movie in productCallState.Movies">
+            <div class="product_item" @mouseover="showInfo(movie)" @mouseleave="hideInfo(movie)">
                 <img :src="`${productCallState.cover_url}w342${movie.poster_path}`" v-if="movie.poster_path != null"
-                    alt="Title Image" @mouseover="showInfoProduct=true" @mouseleave="showInfoProduct=false">
-                <img v-else src="../assets/No_Image_Available.jpg" alt="No Image Avalaible"
-                    @mouseover="showInfoProduct = true" @mouseleave="showInfoProduct = false">
-                <div class="info_product" v-if="showInfoProduct==true">
+                    alt="Title Image">
+                <img v-else src="../assets/No_Image_Available.jpg" alt="No Image Avalaible">
+                <div class="info_product" v-if="movie.showInfo==true">
                     <div v-if="movie.title == movie.original_title">Title:{{
                         productShowState.nullChecker(movie.title)
                         }}</div>
@@ -52,14 +75,15 @@ export default {
     <div class="product_container" v-if="productCallState.TvShows.length > 0">
         <div class="my-2 p-1 border-2 border-blue bg-dark text-white"
             v-for="(tvShow, index) in productCallState.TvShows">
-            <div class="product_item">
-                <img :src="`${productCallState.cover_url}w342${tvShow.poster_path}`" v-if="tvShow.poster_path != null"
-                    alt="Image" @mouseover="showInfoProduct = true" @mouseleave="showInfoProduct = false">
-                <img v-else src="../assets/No_Image_Available.jpg" alt="No Image Avalaible"
-                    @mouseover="showInfoProduct = true" @mouseleave="showInfoProduct = false">
-                <div class="info_product" v-if="showInfoProduct==true">
-                    <div v-if="tvShow.name == tvShow.original_name">Name:{{
-                    productShowState.nullChecker(tvShow.name) }}
+            <div class="product_item" 
+            @mouseover="showInfo(tvShow)" 
+            @mouseleave="hideInfo(tvShow)">
+                <img :src=" `${productCallState.cover_url}w342${tvShow.poster_path}`" v-if="tvShow.poster_path != null"
+                alt="Image">
+                <img v-else src="../assets/No_Image_Available.jpg" alt="No Image Avalaible">
+                <div class="info_product" v-if="tvShow.showInfo==true">
+                    <div v-if="tvShow.name[index] == tvShow.original_name[index]">Name:{{
+                        productShowState.nullChecker(tvShow.name) }}
                     </div>
 
                     <div v-else class="flex flex-col">
