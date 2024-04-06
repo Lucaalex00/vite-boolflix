@@ -36,10 +36,12 @@ export default {
 <style scoped>
 .header_container{
     background-color: rgba(0, 0, 0, 0.973);
+    width: 100vw;
     display: flex;
     justify-content: space-between;
     padding: 4px 1rem;
     align-items: center;
+    height: 50px;
     >.controls{
         display: flex;
         gap: 1rem;
@@ -48,18 +50,36 @@ export default {
             color: white;
             background-color: black;
             border: 2px solid white;
+            transition: 1000ms;
+            cursor: pointer;
+            &:hover {
+                    background-color: rgb(255, 255, 255);
+                    color: black;
+                    border: 2px solid black
+                }
         };
         >input{
             width: 200px;
             background-color: black;
             border: 2px solid white;
-            color: white
+            color: white;
+            transition: 1000ms;
+            &:focus{
+                background-color:rgb(255, 255, 255);
+                color: black;
+                border: 2px solid black
+            }
         };
-    }
-    
-    >.logo>a>img{
-        width: 120px;
-    }
+        
+    };
+        >.logo>a>img{
+            width: 120px;
+            transition: 2000ms;
+            &:hover{
+                filter: invert(100%);
+                width:150px;
+            }
+        };
 }
 
 </style>

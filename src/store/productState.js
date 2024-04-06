@@ -12,7 +12,7 @@ export const productShowState = reactive({
     this.getTvSeries();
     this.resetUserInput();
     setTimeout(() => {
-      //RICORDA: le chiamate non sono istantanee e perciò devi dare del tempo ai controlli di funzionare correttamente sulle array restituite.
+      //REMEMBER: give a delay time when u need to control if get call returned any elements or not, 'cause is not instantly.
       if (
         this.productCallState.Movies.length === 0 &&
         this.productCallState.TvShows.length === 0
@@ -22,10 +22,21 @@ export const productShowState = reactive({
         this.errorMessage = "";
       }
     }, 1000);
+    setTimeout(() => {
+      this.resetInputError();
+    }, 4000);
   },
-
+  /**
+   * set errorMessage to "0 TITLES FOUND"
+   */
   getInputError() {
-    this.errorMessage = "0 titles found";
+    this.errorMessage = "0 TITLES FOUND";
+  },
+  /**
+   * set errorMessage to "Empty String"
+   */
+  resetInputError() {
+    this.errorMessage = "";
   },
 
   /**
