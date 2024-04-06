@@ -23,7 +23,6 @@ export default {
          */
         showInfo(el) {
             el.showInfo = true;
-            console.log('show')
         },
         /**
          * Hide "EL" info
@@ -31,7 +30,6 @@ export default {
          */
         hideInfo(el) {
             el.showInfo = false;
-            console.log('hide')
         }
     }
 }
@@ -164,6 +162,8 @@ export default {
         position: relative;
         >img {
             opacity: 60%;
+            width: 100%;
+            height: 100%;
         }
 
     } 

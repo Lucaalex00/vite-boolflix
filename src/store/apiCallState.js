@@ -10,13 +10,11 @@ export const productCallState = reactive({
   getMovies(url) {
     axios.get(url).then((response) => {
       this.Movies = response.data.results;
-      console.log(this.Movies);
     });
   },
   getTvShows(url) {
     axios.get(url).then((response) => {
       this.TvShows = response.data.results;
-      console.log(this.TvShows);
     });
   },
 });

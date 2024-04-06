@@ -35,7 +35,7 @@ export default {
 
 <style scoped>
 .header_container{
-    background-color: black;
+    background-color: rgba(0, 0, 0, 0.973);
     display: flex;
     justify-content: space-between;
     padding: 4px 1rem;

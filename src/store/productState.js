@@ -1,7 +1,7 @@
 import { reactive } from "vue";
 import { productCallState } from "./apiCallState";
 export const productShowState = reactive({
-  userInput: null,
+  userInput: "",
   errorMessage: "",
   productCallState,
   /**
