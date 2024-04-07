@@ -10,6 +10,7 @@ export const productCallState = reactive({
   getMovies(url) {
     axios.get(url).then((response) => {
       this.Movies = response.data.results;
+      console.log(response);
     });
   },
   getTvShows(url) {

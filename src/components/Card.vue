@@ -40,11 +40,19 @@ export default {
     <div class="products_container" v-if="productCallState.Movies.length > 0">
         <div class="my-2 border-2 border-red bg-dark text-white" v-for="movie in productCallState.Movies">
             <div class="product_item" @mouseover="showInfo(movie)" @mouseleave="hideInfo(movie)">
-                <img :src="`${productCallState.cover_url}w342${movie.poster_path}`" v-if="movie.poster_path != null"
-                    alt="Title Image">
-                <img v-else src="../assets/No_Image_Available.jpg" alt="No Image Avalaible">
+                <div v-if="movie.showInfo==true">
+                    <img class="product_img" :src="`${productCallState.cover_url}w342${movie.backdrop_path}`"
+                        v-if="movie.poster_path != null" alt="Title Image">
+                    <img class="product_img" v-else src="../assets/No_Image_Available.jpg" alt="No Image Avalaible">
+                </div>
+                <div v-else>
+                    <img class="product_img" :src="`${productCallState.cover_url}w342${movie.poster_path}`"
+                        v-if="movie.poster_path != null" alt="Title Image">
+                    <img class="product_img" v-else src="../assets/No_Image_Available.jpg" alt="No Image Avalaible">
+                </div>
+
                 <div v-if="movie.showInfo==true" class="lang">
-                    <span v-if="movie.original_language!=null":class="`fi fi-${movie.original_language}`">
+                    <span v-if="movie.original_language!=null" :class="`fi fi-${movie.original_language}`">
                     </span>
                 </div>
                 <div class="info_product p-1" v-if="movie.showInfo==true">
@@ -74,12 +82,21 @@ export default {
     <!-- TV SHOWs -->
     <h1 class="tvshow_title" v-if="productCallState.TvShows.length > 0">TV-Show</h1>
     <div class="products_container" v-if="productCallState.TvShows.length > 0">
-        <div class="my-2 border-2 border-blue bg-dark text-white" v-for="tvShow in productCallState.TvShows">
+        <div class="my-2 border-2 border-green bg-dark text-white" v-for="tvShow in productCallState.TvShows">
             <div class="product_item" @mouseover="showInfo(tvShow)" @mouseleave="hideInfo(tvShow)">
-                <img :src=" `${productCallState.cover_url}w342${tvShow.poster_path}`" v-if="tvShow.poster_path != null"
-                    alt="Image">
-                <img v-else src="../assets/No_Image_Available.jpg" alt="No Image Avalaible">
-                <div v-if="tvShow.showInfo==true" class="lang"> <span :class="`fi fi-${tvShow.original_language}`">
+                <div v-if="tvShow.showInfo==false">
+                    <img class="product_img" :src=" `${productCallState.cover_url}w342${tvShow.poster_path}`"
+                        v-if="tvShow.poster_path != null" alt="Image">
+                    <img class="product_img" v-else src="../assets/No_Image_Available.jpg" alt="No Image Avalaible">
+                </div>
+                <div v-else>
+                    <img class="product_img" :src="`${productCallState.cover_url}w342${tvShow.backdrop_path}`"
+                        v-if="tvShow.backdrop_path != null" alt="Image">
+                    <img class="product_img" v-else src="../assets/No_Image_Available.jpg" alt="No Image Avalaible">
+                </div>
+
+                <div v-if="tvShow.showInfo==true" class="lang"> 
+                    <span :class="`fi fi-${tvShow.original_language}`">
                     </span>
                 </div>
                 <div class="info_product p-1" v-if="tvShow.showInfo==true">
@@ -93,7 +110,8 @@ export default {
                             }}</span>
                     </div>
 
-                    <div class="desc">{{ productShowState.nullChecker(tvShow.overview) }}</div>
+                    <div class="desc" v-if="tvShow.overview!=''">{{ productShowState.nullChecker(tvShow.overview) }}</div>
+                    <div v-else> No Description</div>
                     <div class="stars_vote">
                         <font-awesome-icon v-for="index in 5"
                             :icon="productShowState.getIntVote((tvShow.vote_average / 2), index)" />
@@ -125,13 +143,8 @@ export default {
         text-shadow: 2px 2px rgba(180, 0, 0, 0.699)
     }
     .tvshow_title{
-        color: blue;
-        text-shadow: 2px 2px rgba(0, 0, 180, 0.699)
-    }
-    img {
-        opacity: 60%;
-        width: 100%;
-        height: 100%
+        color: rgb(72, 255, 0);
+        text-shadow: 2px 2px rgba(30, 129, 0, 0.699)
     }
     
     .bg-dark {
@@ -153,15 +166,16 @@ export default {
     
     .product_item {
         overflow-y: auto;
-        width: 300px;
+        width: 250px;
         height: 100%;
         position: relative;
-        >img {
-            opacity: 60%;
+        .product_img {
+            opacity: 80%;
             width: 100%;
             height: 100%;
+            object-fit: fill;
+            position: absolute;
         }
-        
     } 
     .info_product{
         position: absolute;
@@ -169,9 +183,10 @@ export default {
         display: flex;
         flex-direction: column;
         gap: 0.5rem;
-        >.title , .title {
+        .title:first-child {
             font-size: 1.2rem;
-            text-decoration: underline
+            text-decoration: underline;
+            font-weight: bold;
         }
         >.desc{
             line-height: 20px;

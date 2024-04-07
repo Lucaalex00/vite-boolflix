@@ -25,8 +25,8 @@
     border-color: red;
 }
 
-.border-blue{
-    border-color: blue;
+.border-green{
+    border-color: rgb(0, 175, 0);
 }
 
 .p-1 {
